@@ -5,10 +5,11 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "default" | "ghost" | "outline";
   size?: "sm" | "md";
+  asChild?: boolean;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = "default", size = "md", ...props }, ref) => {
+  ({ className, variant = "default", size = "md", asChild = false, ...props }, ref) => {
     const base =
       "inline-flex items-center justify-center gap-1 rounded-full font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 disabled:opacity-60 disabled:cursor-not-allowed";
     const variants: Record<NonNullable<ButtonProps["variant"]>, string> = {
@@ -24,10 +25,20 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       md: "px-4 py-1.5 text-sm"
     };
 
+    const classes = cn(base, variants[variant], sizes[size], className);
+
+    if (asChild) {
+      const child = React.Children.only(props.children) as React.ReactElement<any>;
+      return React.cloneElement(child, {
+        className: cn(child.props?.className, classes),
+        ref
+      });
+    }
+
     return (
       <button
         ref={ref}
-        className={cn(base, variants[variant], sizes[size], className)}
+        className={classes}
         {...props}
       />
     );

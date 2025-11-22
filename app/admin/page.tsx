@@ -83,26 +83,49 @@ export default function AdminPage() {
         </Card>
       </section>
 
-      <section>
+      <section className="grid gap-5 md:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle>事件回放 · 縱覽長輩一整天的動線</CardTitle>
+            <CardTitle>事件回放 · 3D 動線可視化</CardTitle>
             <CardDescription>
-              這裡示意未來可以把時間軸拉寬到一整天，從 2D 列表跳回 3D 場景，協助跨專業團隊共同檢視。
+              重現完整徘徊路徑，協助跨專業團隊分析行為模式與環境因素。
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
             <DigitalTwinCanvas />
-            <div className="flex flex-wrap items-center gap-2 text-xs text-slate-300">
-              <span className="rounded-full bg-slate-800/80 px-2 py-1">
-                10:10 · A 區走廊徘徊（黃燈）
-              </span>
-              <span className="rounded-full bg-slate-800/80 px-2 py-1">
-                10:22 · 嘗試開啟大門（紅燈）
-              </span>
-              <span className="rounded-full bg-slate-800/80 px-2 py-1">
-                10:25 · 照護人員陪同回房（綠燈）
-              </span>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>事件時間軸 · 完整歷程記錄</CardTitle>
+            <CardDescription>
+              從徘徊偵測到工作人員介入，每個關鍵節點都有清楚紀錄。
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            {/* Placeholder for EventTimeline - will be integrated with real data */}
+            <div className="space-y-2 text-xs text-slate-300">
+              <div className="flex items-center gap-2">
+                <div className="h-2 w-2 rounded-full bg-blue-400" />
+                <span>10:10 · 王奶奶開始在 A 區日照空間徘徊</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="h-2 w-2 rounded-full bg-amber-400" />
+                <span>10:13 · 同一走道來回 8 次（觸發黃燈警示）</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="h-2 w-2 rounded-full bg-amber-400" />
+                <span>10:18 · 嘗試走向出口（第 1 次）</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="h-2 w-2 rounded-full bg-red-400" />
+                <span>10:22 · 嘗試走向出口（第 3 次，升級紅燈）</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="h-2 w-2 rounded-full bg-emerald-400" />
+                <span>10:25 · 林護理師介入 → 陪同參加音樂活動</span>
+              </div>
             </div>
           </CardContent>
         </Card>
