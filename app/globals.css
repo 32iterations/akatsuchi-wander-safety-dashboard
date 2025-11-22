@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-slate-950 text-slate-50 antialiased;
+}
+
+.gradient-bg {
+  background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.2), transparent 55%),
+              radial-gradient(circle at bottom right, rgba(249, 115, 22, 0.25), transparent 55%);
+}
