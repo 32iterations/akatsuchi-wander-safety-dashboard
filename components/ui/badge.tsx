@@ -2,16 +2,18 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
-  variant?: "default" | "outline" | "danger";
+  variant?: "default" | "success" | "warning" | "danger" | "outline";
 }
 
 export function Badge({ className, variant = "default", ...props }: BadgeProps) {
   const base =
-    "inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-medium";
+    "inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-semibold transition-colors";
   const variants: Record<NonNullable<BadgeProps["variant"]>, string> = {
-    default: "bg-slate-800 text-slate-100",
-    outline: "border border-slate-500/50 text-slate-200",
-    danger: "bg-red-500/20 text-red-300 border border-red-500/40"
+    default: "bg-neutral-100 text-neutral-800 border border-neutral-300",
+    success: "bg-success-100 text-success-800 border border-success-300",
+    warning: "bg-warning-100 text-warning-800 border border-warning-300",
+    danger: "bg-danger-100 text-danger-800 border border-danger-300",
+    outline: "border-2 border-neutral-400 text-neutral-800 bg-white"
   };
 
   return (

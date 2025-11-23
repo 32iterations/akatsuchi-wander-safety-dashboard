@@ -39,22 +39,25 @@ export function RiskIndicatorFallback({
 
   const colors = {
     low: {
-      bg: "bg-emerald-500/10",
-      ring: "border-emerald-400",
-      glow: "shadow-emerald-400/50",
-      text: "text-emerald-300"
+      bg: "bg-success-50",
+      ring: "border-success-500",
+      glow: "shadow-success-500/30",
+      text: "text-success-600",
+      label: "低風險"
     },
     medium: {
-      bg: "bg-amber-500/10",
-      ring: "border-amber-400",
-      glow: "shadow-amber-400/50",
-      text: "text-amber-300"
+      bg: "bg-warning-50",
+      ring: "border-warning-500",
+      glow: "shadow-warning-500/30",
+      text: "text-warning-600",
+      label: "中風險"
     },
     high: {
-      bg: "bg-red-500/10",
-      ring: "border-red-400",
-      glow: "shadow-red-400/50",
-      text: "text-red-300"
+      bg: "bg-danger-50",
+      ring: "border-danger-500",
+      glow: "shadow-danger-500/30",
+      text: "text-danger-600",
+      label: "高風險"
     }
   };
 
@@ -63,7 +66,7 @@ export function RiskIndicatorFallback({
   return (
     <div
       className={cn(
-        "relative aspect-video w-full overflow-hidden rounded-2xl border border-slate-800",
+        "relative aspect-video w-full overflow-hidden rounded-xl border border-neutral-200",
         theme.bg,
         className
       )}
@@ -76,21 +79,21 @@ export function RiskIndicatorFallback({
             className={cn(
               "absolute rounded-full border-2 transition-all duration-500",
               theme.ring,
-              pulsePhase === index ? "scale-100 opacity-100" : "scale-75 opacity-30"
+              pulsePhase === index ? "scale-100 opacity-100" : "scale-75 opacity-20"
             )}
             style={{
               width: `${30 + index * 25}%`,
               height: `${30 + index * 25}%`,
-              boxShadow: pulsePhase === index ? `0 0 20px ${theme.glow}` : "none"
+              boxShadow: pulsePhase === index ? `0 0 24px ${theme.glow}` : "none"
             }}
           />
         ))}
 
         {/* Center icon */}
-        <div className="z-10 flex flex-col items-center gap-2">
+        <div className="z-10 flex flex-col items-center gap-3">
           {riskLevel === "high" && (
             <svg
-              className={cn("h-12 w-12", theme.text)}
+              className={cn("h-16 w-16", theme.text)}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -105,7 +108,7 @@ export function RiskIndicatorFallback({
           )}
           {riskLevel === "medium" && (
             <svg
-              className={cn("h-12 w-12", theme.text)}
+              className={cn("h-16 w-16", theme.text)}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -120,7 +123,7 @@ export function RiskIndicatorFallback({
           )}
           {riskLevel === "low" && (
             <svg
-              className={cn("h-12 w-12", theme.text)}
+              className={cn("h-16 w-16", theme.text)}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -133,17 +136,10 @@ export function RiskIndicatorFallback({
               />
             </svg>
           )}
-          <span className={cn("text-xs font-semibold uppercase tracking-wider", theme.text)}>
-            {riskLevel === "high" && "高風險"}
-            {riskLevel === "medium" && "中風險"}
-            {riskLevel === "low" && "低風險"}
+          <span className={cn("text-sm font-bold uppercase tracking-wide", theme.text)}>
+            {theme.label}
           </span>
         </div>
-      </div>
-
-      {/* Status label */}
-      <div className="absolute bottom-3 left-3 rounded-full bg-slate-900/80 px-3 py-1 text-[10px] text-slate-300 backdrop-blur-sm">
-        等待 Rive 動畫檔案 • 使用 fallback 顯示
       </div>
     </div>
   );

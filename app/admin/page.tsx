@@ -1,135 +1,282 @@
 "use client";
 
-import { ArrowLeft, Activity, Map } from "lucide-react";
+import { ArrowLeft, Settings, Shield, Clock, Map, AlertCircle } from "lucide-react";
 import Link from "next/link";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { OccupancyMiniChart } from "@/components/charts/OccupancyMiniChart";
 import { DigitalTwinCanvas } from "@/components/scene/DigitalTwinCanvas";
+import { AIAssistant } from "@/components/ai/AIAssistant";
 
 export default function AdminPage() {
   return (
-    <main className="mx-auto flex min-h-screen max-w-6xl flex-col gap-6 px-4 py-6 md:px-6 md:py-8">
-      <header className="flex items-center justify-between gap-4">
-        <div className="space-y-1">
-          <div className="inline-flex items-center gap-2 text-xs text-slate-400">
-            <Link href="/" className="inline-flex items-center gap-1 text-slate-300 hover:text-amber-300">
-              <ArrowLeft className="h-3 w-3" />
-              返回展示頁
+    <>
+      <main className="mx-auto flex min-h-screen max-w-7xl flex-col gap-8 px-6 py-8">
+        {/* Header */}
+        <header className="flex items-center justify-between">
+          <div className="space-y-3">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 text-base font-medium text-neutral-700 hover:text-primary-600 transition-colors"
+            >
+              <ArrowLeft className="h-5 w-5" />
+              返回主控台
             </Link>
+            <div className="flex items-center gap-3">
+              <h1 className="text-4xl font-black tracking-tight text-neutral-900">
+                管理介面
+              </h1>
+              <Badge variant="outline">管理員</Badge>
+            </div>
+            <p className="text-base font-medium text-neutral-700">
+              配置系統參數、管理警報規則、分析歷史數據
+            </p>
           </div>
-          <h1 className="text-2xl font-semibold tracking-tight text-slate-50">
-            管理端 Dashboard（照護團隊用）
-          </h1>
-          <p className="max-w-2xl text-sm text-slate-300">
-            本頁面示範：系統真正上線後，照護團隊可以如何設定「徘徊風險規則」、查看歷史事件，以及調整空間與人力配置。
-          </p>
+          <div className="flex gap-3">
+            <Button variant="outline" size="md">
+              匯出報表
+            </Button>
+            <Button size="md">
+              儲存設定
+            </Button>
+          </div>
+        </header>
+
+        {/* Quick Stats */}
+        <div className="grid gap-6 md:grid-cols-4">
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-base font-medium text-neutral-700">今日警報</p>
+                  <p className="mt-2 text-3xl font-bold text-neutral-900">3</p>
+                </div>
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-danger-100">
+                  <AlertCircle className="h-6 w-6 text-danger-600" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-base font-medium text-neutral-700">平均響應時間</p>
+                  <p className="mt-2 text-3xl font-bold text-neutral-900">2.3<span className="text-lg font-medium text-neutral-700">分</span></p>
+                </div>
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-success-100">
+                  <Clock className="h-6 w-6 text-success-600" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-base font-medium text-neutral-700">啟用規則</p>
+                  <p className="mt-2 text-3xl font-bold text-neutral-900">5</p>
+                </div>
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-100">
+                  <Shield className="h-6 w-6 text-primary-600" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-base font-medium text-neutral-700">監控區域</p>
+                  <p className="mt-2 text-3xl font-bold text-neutral-900">3</p>
+                </div>
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-warning-100">
+                  <Map className="h-6 w-6 text-warning-600" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
-        <Badge variant="outline" className="flex items-center gap-1">
-          <Activity className="h-3 w-3" />
-          Prototype
-        </Badge>
-      </header>
 
-      <section className="grid gap-5 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between gap-3">
-            <div>
-              <CardTitle>規則模擬：徘徊觸發條件</CardTitle>
-              <CardDescription>
-                僅為示意：實際規則需與職能治療師、醫師與家屬共同調整。
-              </CardDescription>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-3 text-xs text-slate-200">
-            <ul className="space-y-2">
-              <li>
-                <span className="font-semibold text-amber-200">Rule #1：</span>
-                同一走道來回超過 <span className="font-semibold">8 次 / 10 分鐘</span>，且沒有活動帶領。
-              </li>
-              <li>
-                <span className="font-semibold text-amber-200">Rule #2：</span>
-                夜間（22:00–05:00）離床後，連續走向出口或樓梯超過{" "}
-                <span className="font-semibold">3 次 / 30 分鐘</span>。
-              </li>
-              <li>
-                <span className="font-semibold text-amber-200">Rule #3：</span>
-                進入「高風險區域」（如大門、停車場動線）時，若同時偵測到心率或步態明顯異常，提升為紅色警示。
-              </li>
-            </ul>
-            <p className="text-[11px] text-slate-400">
-              Hackathon Demo 中，我們會用假資料觸發上述規則，讓評審直接看到「從徘徊到警示」的完整動畫流程。
-            </p>
-          </CardContent>
-        </Card>
+        {/* Main Content Grid */}
+        <div className="grid gap-6 lg:grid-cols-3">
+          {/* Left Column - Rules & Settings */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Alert Rules */}
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle className="flex items-center gap-2">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-100">
+                    <Settings className="h-4 w-4 text-primary-600" />
+                  </div>
+                  警報觸發規則
+                </CardTitle>
+                <Button variant="outline" size="sm">
+                  新增規則
+                </Button>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {/* Rule 1 */}
+                  <div className="flex items-start gap-4 rounded-lg border border-neutral-200 bg-neutral-50 p-4">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-warning-100 text-base font-bold text-warning-700">
+                      1
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="text-base font-bold text-neutral-900">重複徘徊偵測</h4>
+                      <p className="mt-1.5 text-base font-medium text-neutral-700">
+                        同一區域來回超過 <span className="font-bold text-warning-700">8 次 / 10 分鐘</span>
+                      </p>
+                    </div>
+                    <Badge variant="warning">啟用</Badge>
+                  </div>
 
-        <Card>
-          <CardHeader className="flex items-center justify-between gap-2">
-            <div>
-              <CardTitle>空間熱度 &amp; 區域屬性</CardTitle>
-              <CardDescription>
-                可視化每個空間的「日常熱度」與「認知負荷」，協助調整動線與活動安排。
-              </CardDescription>
-            </div>
-            <Map className="h-4 w-4 text-slate-400" />
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <OccupancyMiniChart />
-            <p className="text-[11px] text-slate-400">
-              後續可以疊加：跌倒事件熱區、求助鈴位置、輪椅迴轉半徑等資訊，變成「護理站的戰情室地圖」。
-            </p>
-          </CardContent>
-        </Card>
-      </section>
+                  {/* Rule 2 */}
+                  <div className="flex items-start gap-4 rounded-lg border border-neutral-200 bg-neutral-50 p-4">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-danger-100 text-base font-bold text-danger-700">
+                      2
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="text-base font-bold text-neutral-900">夜間離床警報</h4>
+                      <p className="mt-1.5 text-base font-medium text-neutral-700">
+                        22:00-05:00 走向出口超過 <span className="font-bold text-danger-700">3 次 / 30 分鐘</span>
+                      </p>
+                    </div>
+                    <Badge variant="danger">啟用</Badge>
+                  </div>
 
-      <section className="grid gap-5 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>事件回放 · 3D 動線可視化</CardTitle>
-            <CardDescription>
-              重現完整徘徊路徑，協助跨專業團隊分析行為模式與環境因素。
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <DigitalTwinCanvas />
-          </CardContent>
-        </Card>
+                  {/* Rule 3 */}
+                  <div className="flex items-start gap-4 rounded-lg border border-neutral-200 bg-neutral-50 p-4">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-danger-100 text-base font-bold text-danger-700">
+                      3
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="text-base font-bold text-neutral-900">高風險區域進入</h4>
+                      <p className="mt-1.5 text-base font-medium text-neutral-700">
+                        進入大門、停車場且偵測到<span className="font-bold text-danger-700">異常步態</span>
+                      </p>
+                    </div>
+                    <Badge variant="danger">啟用</Badge>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>事件時間軸 · 完整歷程記錄</CardTitle>
-            <CardDescription>
-              從徘徊偵測到工作人員介入，每個關鍵節點都有清楚紀錄。
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {/* Placeholder for EventTimeline - will be integrated with real data */}
-            <div className="space-y-2 text-xs text-slate-300">
-              <div className="flex items-center gap-2">
-                <div className="h-2 w-2 rounded-full bg-blue-400" />
-                <span>10:10 · 王奶奶開始在 A 區日照空間徘徊</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="h-2 w-2 rounded-full bg-amber-400" />
-                <span>10:13 · 同一走道來回 8 次（觸發黃燈警示）</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="h-2 w-2 rounded-full bg-amber-400" />
-                <span>10:18 · 嘗試走向出口（第 1 次）</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="h-2 w-2 rounded-full bg-red-400" />
-                <span>10:22 · 嘗試走向出口（第 3 次，升級紅燈）</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="h-2 w-2 rounded-full bg-emerald-400" />
-                <span>10:25 · 林護理師介入 → 陪同參加音樂活動</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </section>
-    </main>
+            {/* Event Replay */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-success-100">
+                    <Map className="h-4 w-4 text-success-600" />
+                  </div>
+                  事件回放 · 3D 路徑重建
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <DigitalTwinCanvas />
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Right Column - Analytics */}
+          <div className="space-y-6">
+            {/* Space Usage */}
+            <Card>
+              <CardHeader>
+                <CardTitle>空間使用分析</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <OccupancyMiniChart />
+              </CardContent>
+            </Card>
+
+            {/* Timeline */}
+            <Card>
+              <CardHeader>
+                <CardTitle>最近事件時間軸</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex gap-3 items-start">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-danger-100 text-sm font-bold text-danger-700">
+                      10:22
+                    </div>
+                    <div className="flex-1 space-y-1.5">
+                      <div className="flex items-center gap-2">
+                        <p className="text-base font-bold text-neutral-900">高風險警報</p>
+                        <Badge variant="danger">規則 #2</Badge>
+                      </div>
+                      <p className="text-sm font-medium text-neutral-700">王奶奶嘗試走向出口（第3次）</p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3 items-start">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-warning-100 text-sm font-bold text-warning-700">
+                      10:13
+                    </div>
+                    <div className="flex-1 space-y-1.5">
+                      <div className="flex items-center gap-2">
+                        <p className="text-base font-bold text-neutral-900">異常徘徊</p>
+                        <Badge variant="warning">規則 #1</Badge>
+                      </div>
+                      <p className="text-sm font-medium text-neutral-700">A區日照空間來回8次</p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3 items-start">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-success-100 text-sm font-bold text-success-700">
+                      10:10
+                    </div>
+                    <div className="flex-1 space-y-1.5">
+                      <p className="text-base font-bold text-neutral-900">開始監控</p>
+                      <p className="text-sm font-medium text-neutral-700">王奶奶進入A區日照空間</p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3 items-start">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-success-100 text-sm font-bold text-success-700">
+                      10:25
+                    </div>
+                    <div className="flex-1 space-y-1.5">
+                      <p className="text-base font-bold text-neutral-900">成功介入</p>
+                      <p className="text-sm font-medium text-neutral-700">林護理師陪同參加音樂活動</p>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* System Status */}
+            <Card>
+              <CardHeader>
+                <CardTitle>系統狀態</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-base font-medium text-neutral-700">定位系統</span>
+                  <Badge variant="success">正常</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-base font-medium text-neutral-700">AI 分析引擎</span>
+                  <Badge variant="success">正常</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-base font-medium text-neutral-700">資料庫連線</span>
+                  <Badge variant="success">正常</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-base font-medium text-neutral-700">通知服務</span>
+                  <Badge variant="success">正常</Badge>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </main>
+
+      {/* AI Assistant */}
+      <AIAssistant />
+    </>
   );
 }

@@ -1,5 +1,8 @@
+"use client";
+
 import { Text } from "@react-three/drei";
 import type { Vector3 } from "three";
+import { useState, useEffect } from "react";
 
 interface ZoneLabelProps {
   position: Vector3 | [number, number, number];
@@ -21,6 +24,12 @@ export function ZoneLabel({
   color = "#94a3b8",
   riskLevel
 }: ZoneLabelProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const riskColors = {
     low: "#10b981",    // emerald-500
     medium: "#f59e0b", // amber-500
@@ -28,6 +37,9 @@ export function ZoneLabel({
   };
 
   const labelColor = riskLevel ? riskColors[riskLevel] : color;
+
+  // Only render Text on client to avoid SSR hydration mismatch
+  if (!mounted) return null;
 
   return (
     <Text
